@@ -6,11 +6,25 @@ import java.awt.event.MouseEvent;
 object tak{
   import java.io._
   
-  var pc=Array.tabulate(9)((x=>red("./pc/"+x)))
-  var user=Array.tabulate(9)((x=>red("./user/"+x)))
+  private val pc=Array.tabulate(9)((x=>red("./pc/"+x)))
+  private val user=Array.tabulate(9)((x=>red("./user/"+x)))
       new File("./pc").mkdirs()
     new File("./user").mkdirs()
     
+  private def getset(get:Boolean,ar:String=null)(pcc:String,index:Int)=synchronized({
+    if(get){
+      if(pcc=="pc") pc(index) else user(index)
+    }
+    else{
+      if(pcc=="pc") pc(index)=ar else user(index)=ar
+      if(pcc=="pc") pc(index) else user(index)
+    }
+  })
+    
+  def get(pcc:String,index:Int)=getset(true)(pcc,index)
+  
+  def set(ar:String,pcc:String,index:Int)=getset(false,ar + get(pcc,index))(pcc,index)
+  
   private def red(path:String):String={
     val file=new File(path)
     if(file.exists()==false)return ""
@@ -214,12 +228,12 @@ class tak {
 //          file.close()
           
           if(pcstarted)
-            pc(x) = pc(x)+st+"\n"
+            set(st+"\n","pc",x)
             else 
-            user(x) = user(x)+st+"\n"
+            set(st+"\n","user",x)
           
-          println("pc",pc(x))
-          println("user",user(x))
+          println("pc",get("pc",x))
+          println("user",get("user",x))
           
           l.break()
         }
@@ -259,7 +273,7 @@ class tak {
     
     for(k<- 0 to 1){
       //val in=new java.util.Scanner(new java.io.File(if(k==0)"./user" else "./pc"))
-    val in=new java.util.Scanner(if(k==0)user(index) else pc(index))
+    val in=new java.util.Scanner(if(k==0)get("user",index) else get("pc",index))
       
     while(in.hasNext())
     if(in.nextInt()==index){
