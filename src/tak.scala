@@ -18,7 +18,6 @@ object tak{
     }
     else{
       if(pcc=="pc") pc(index)=ar else user(index)=ar
-      if(pcc=="pc") pc(index) else user(index)
     }
   })
     
