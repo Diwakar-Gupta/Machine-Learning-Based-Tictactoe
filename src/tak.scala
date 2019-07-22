@@ -2,6 +2,7 @@ import java.util._
 import java.io._
 import java.awt.Font
 import java.awt.event.MouseEvent;
+import scala.util.control.Breaks._
 
 object tak{
   import java.io._
@@ -176,20 +177,18 @@ class tak {
   
   def player1{
     
-    val l=scala.util.control.Breaks
-    
     while(true){
       var con=(false,' ')
       if(false){turn(easy,'X');pcstarted=true}
       
-    l breakable(
+    breakable(
     while(con._1 == false){
       Thread.sleep(500)
       println("pcstarted",pcstarted)
       turn(coordinate,'O')
       con=check
       Thread.sleep(500)
-      if(con _1)l.break
+      if(con _1)break
       turn(logic(),'X')
       con=check
     }
@@ -277,10 +276,9 @@ class tak {
       
     while(in.hasNext())
     if(in.nextInt()==index){
-      val l=scala.util.control.Breaks
       
-      l.breakable({
-        for(x<- 0 until index)if(in.nextInt != xturn(x)||in.nextInt != yturn(x))l.break
+      breakable({
+        for(x<- 0 until index)if(in.nextInt != xturn(x)||in.nextInt != yturn(x))break
         if(k==0 == pcstarted)return (in.nextInt,in.nextInt)
         else donot.add((in.nextInt,in.nextInt))
       })
